@@ -11,10 +11,17 @@ use App\Http\Requests\TaskRequest;
 
 class TaskController extends Controller
 {
-    public function index(){
-        $tasks = Task::with('project')->orderBy('priority','ASC')->orderBy('id','DESC')->get();
+    public function index(Request $request){
+       
         $projects = Project::all();
-        return view('home',compact('tasks','projects'));
+        $selected = null;
+        if($request->query('project')){
+            $selected = Project::findorFail($request->query('project'));
+            $tasks = $selected->tasks()->orderBy('priority','ASC')->orderBy('id','DESC')->get();
+        }else{
+            $tasks = Task::with('project')->orderBy('priority','ASC')->orderBy('id','DESC')->get();
+        }
+        return view('home',compact('tasks','projects','selected'));
     }
 
     public function create(){
@@ -65,5 +72,14 @@ class TaskController extends Controller
             return redirect()->back()->with('error', 'Something went wrong');   
         }
 
+    }
+
+    public function updatePriority(Request $request){
+        $order = $request->order;
+        foreach($order as $index=>$item){
+            $task = Task::findorFail($item);
+            $task->priority = $index + 1;$task->save();
+        }
+        return response()->json(['success'=>'Priority Successfully updated!']);
     }
 }
