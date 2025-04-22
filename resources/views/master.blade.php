@@ -5,4 +5,5 @@
     @yield('content')
 </body>
 @include('partials.footer')
+@include('partials.messages')
 </html>
