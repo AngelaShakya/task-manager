@@ -18,3 +18,8 @@ Laravel framework: ^12.0
 - https://laracasts.com/discuss
 - https://stackoverflow.com/questions
 
+# Github and Mail Id In case of any issues: 
+
+- Github: https://github.com/AngelaShakya/task-manager
+
+- Mail Id: angelashakya56@gmail.com
